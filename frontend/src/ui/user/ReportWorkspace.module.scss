@@ -1,0 +1,185 @@
+@import "src/ui/const";
+
+.Center {
+  padding: 30px;
+  min-width: 600px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.Title {
+  font-size: 18px;
+  font-weight: $font_bold;
+}
+
+.SubTitle {
+  font-size: 16px;
+  font-weight: $font_bold;
+}
+
+.Hint {
+  font-size: 14px;
+  font-weight: $font_regular;
+  user-select: none;
+  color: $color_light_hint;
+}
+
+.TimeHint {
+  font-size: 14px;
+  font-weight: $font_regular;
+  user-select: none;
+  color: $color_hint;
+}
+
+.Section {
+  padding: 20px;
+  border: 1px solid $color_border;
+  border-radius: 20px;
+}
+
+.ImageWrap {
+  cursor: pointer;
+  position: relative;
+  width: 50%;
+  min-width: 300px;
+}
+
+.ImageWrapFullscreen {
+  cursor: pointer;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.Image {
+  width: 100%;
+  border-radius: 10px;
+  top: 0;
+  left: 0;
+}
+
+.ImageFullScreen {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.SourceImage {
+  position: relative;
+}
+
+.MaskImage {
+  position: absolute;
+}
+
+.LoadingButtons {
+  font-size: 16px;
+  font-weight: $font_regular;
+}
+
+.LoadingReportText {
+  font-size: 16px;
+  font-weight: $font_regular;
+}
+
+.ReportTextTitle {
+  font-size: 14px;
+  font-weight: $font_bold;
+}
+
+.DeleteButton {
+  color: $color_error;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.Right {
+  min-width: 320px;
+  border-left: 1px solid $color_border;
+}
+
+.Header {
+  padding: 30px 20px 20px 20px;
+  border-bottom: 1px solid $color_border;
+}
+
+.Params {
+  overflow-y: scroll;
+}
+
+.LoadingParams {
+  padding: 20px;
+  font-size: 16px;
+  font-weight: $font_regular;
+}
+
+.Footer {
+  padding: 20px;
+  border-top: 1px solid $color_border;
+}
+
+.CopyButton {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.RephraseButton {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.NavigateButton {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.VersionNavigation {
+  display: flex;
+  align-items: center; /* Выровняет все элементы по вертикали */
+}
+
+.PDFButton {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.TitleContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Расстояние между текстом и иконкой */
+}
+
+.WarningIcon {
+  color: #ffc107; /* Цвет иконки (желтый) */
+  width: 24px; 
+  height: 24px;
+  flex-shrink: 0; /* Запрет уменьшения размера */
+  margin-left: 8px; /* Отступ от текста */
+}

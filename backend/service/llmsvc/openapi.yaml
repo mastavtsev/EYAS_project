@@ -1,0 +1,161 @@
+openapi: 3.1.0
+info:
+  title: llm
+  version: 0.1.0
+paths:
+  /api/v1/generation:
+    post:
+      summary: Generation
+      description: Generates textual fundus description based on estimated parameters.
+      operationId: generation_api_v1_generation_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextInDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextGenerationOutDTO'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - CustomOAuth2PasswordBearer: []
+  /api/v1/correct:
+    post:
+      summary: Correct
+      description: Corrects given parameters in the existing text
+      operationId: correct_api_v1_correct_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextCorrectInDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextGenerationOutDTO'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - CustomOAuth2PasswordBearer: []
+  /api/v1/paraphrasing:
+    post:
+      summary: Paraphrasing
+      description: Paraphrases existing textual fundus description.
+      operationId: paraphrasing_api_v1_paraphrasing_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextCorrectInDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextGenerationOutDTO'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - CustomOAuth2PasswordBearer: []
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TextCorrectInDTO:
+      properties:
+        report_id:
+          type: integer
+          title: Report Id
+        text:
+          type: string
+          title: Text
+        params:
+          type: object
+          title: Params
+      type: object
+      required:
+      - report_id
+      - text
+      - params
+      title: TextCorrectInDTO
+    TextGenerationOutDTO:
+      properties:
+        success:
+          type: boolean
+          title: Success
+      type: object
+      required:
+      - success
+      title: TextGenerationOutDTO
+    TextInDTO:
+      properties:
+        report_id:
+          type: integer
+          title: Report Id
+        params:
+          type: object
+          title: Params
+      type: object
+      required:
+      - report_id
+      - params
+      title: TextInDTO
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    CustomOAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: token

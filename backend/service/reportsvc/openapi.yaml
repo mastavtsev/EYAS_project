@@ -1,0 +1,723 @@
+openapi: 3.1.0
+info:
+  title: report
+  version: 0.1.0
+paths:
+  /api/v1/report:
+    get:
+      summary: List Reports
+      operationId: list_reports_api_v1_report_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ReportOutDto'
+                type: array
+                title: Response List Reports Api V1 Report Get
+      security:
+      - CustomOAuth2PasswordBearer: []
+    post:
+      summary: Request Report
+      operationId: request_report_api_v1_report_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportRequestInDto'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailedOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - CustomOAuth2PasswordBearer: []
+  /api/v1/report/{report_id}:
+    put:
+      summary: Update Report
+      operationId: update_report_api_v1_report__report_id__put
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportUpdateInDto'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailedOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      summary: Get Report
+      operationId: get_report_api_v1_report__report_id__get
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailedOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Delete Report
+      operationId: delete_report_api_v1_report__report_id__delete
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDeletedOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/report/{report_id}/read:
+    post:
+      summary: Read Report
+      operationId: read_report_api_v1_report__report_id__read_post
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/report/{report_id}/image/{image_type}:
+    get:
+      summary: Get Report Image
+      operationId: get_report_image_api_v1_report__report_id__image__image_type__get
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      - name: image_type
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Image Type
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/report/service/{report_id}/image/{image_type}:
+    post:
+      summary: Upload Report Image
+      operationId: upload_report_image_api_v1_report_service__report_id__image__image_type__post
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      - name: image_type
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ReportImageType'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportUploadImageInDto'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportUploadImageOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/report/service/{report_id}:
+    put:
+      summary: Update Report
+      operationId: update_report_api_v1_report_service__report_id__put
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportUpdateInDto'
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/report/service/{report_id}/service_status:
+    post:
+      summary: Update Service Status
+      operationId: update_service_status_api_v1_report_service__report_id__service_status_post
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportServiceStatusInDto'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportServiceStatusOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/report/{report_id}/rephrase:
+    post:
+      summary: Rephrase Text
+      operationId: rephrase_text_api_v1_report__report_id__rephrase_post
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailedOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/report/{report_id}/active/{version}:
+    post:
+      summary: Update Active Text
+      operationId: update_active_text_api_v1_report__report_id__active__version__post
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDetailedOutDto'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/report/{report_id}/pdf:
+    get:
+      summary: Get Pdf
+      operationId: get_pdf_api_v1_report__report_id__pdf_get
+      security:
+      - CustomOAuth2PasswordBearer: []
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Report Id
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    BooleanParameter:
+      properties:
+        type:
+          type: string
+          const: boolean
+          title: Type
+          default: boolean
+        name:
+          type: string
+          title: Name
+        data:
+          $ref: '#/components/schemas/BooleanParameterData'
+      type: object
+      required:
+      - name
+      - data
+      title: BooleanParameter
+    BooleanParameterData:
+      properties:
+        value:
+          type: boolean
+          title: Value
+      type: object
+      required:
+      - value
+      title: BooleanParameterData
+    EnumParameter:
+      properties:
+        type:
+          type: string
+          const: enum
+          title: Type
+          default: enum
+        name:
+          type: string
+          title: Name
+        data:
+          $ref: '#/components/schemas/EnumParameterData'
+      type: object
+      required:
+      - name
+      - data
+      title: EnumParameter
+    EnumParameterData:
+      properties:
+        variants:
+          items:
+            type: string
+          type: array
+          title: Variants
+        value:
+          type: string
+          title: Value
+      type: object
+      required:
+      - variants
+      - value
+      title: EnumParameterData
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ReportDeletedOutDto:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+      type: object
+      title: ReportDeletedOutDto
+    ReportDetailedOutDto:
+      properties:
+        author_id:
+          type: integer
+          title: Author Id
+        status:
+          type: string
+          title: Status
+        title:
+          type: string
+          title: Title
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        id:
+          type: integer
+          title: Id
+        params:
+          items:
+            $ref: '#/components/schemas/ReportParameter'
+          type: array
+          title: Params
+          default: []
+        texts:
+          items:
+            $ref: '#/components/schemas/ReportText'
+          type: array
+          title: Texts
+        statuses:
+          items:
+            $ref: '#/components/schemas/ReportStatus'
+          type: array
+          title: Statuses
+          default: {}
+      type: object
+      required:
+      - status
+      - created_at
+      - id
+      title: ReportDetailedOutDto
+    ReportImageType:
+      type: string
+      enum:
+      - source
+      - mac_segmentation
+      - mac_contour
+      - od_segmentation
+      - od_contour
+      - av_segmentation
+      title: ReportImageType
+    ReportOutDto:
+      properties:
+        author_id:
+          type: integer
+          title: Author Id
+        status:
+          type: string
+          title: Status
+        title:
+          type: string
+          title: Title
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        id:
+          type: integer
+          title: Id
+      type: object
+      required:
+      - status
+      - created_at
+      - id
+      title: ReportOutDto
+    ReportParameter:
+      properties:
+        id:
+          type: integer
+          title: Id
+        report_id:
+          type: integer
+          title: Report Id
+        version:
+          type: integer
+          title: Version
+        name:
+          type: string
+          title: Name
+        type:
+          type: string
+          title: Type
+        data:
+          type: string
+          title: Data
+      type: object
+      required:
+      - type
+      title: ReportParameter
+    ReportRequestInDto:
+      properties:
+        title:
+          type: string
+          title: Title
+        source_image:
+          type: string
+          title: Source Image
+      type: object
+      required:
+      - title
+      - source_image
+      title: ReportRequestInDto
+    ReportServiceStatusInDto:
+      properties:
+        status:
+          $ref: '#/components/schemas/ReportStatusType'
+      type: object
+      required:
+      - status
+      title: ReportServiceStatusInDto
+    ReportServiceStatusOutDto:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+      type: object
+      title: ReportServiceStatusOutDto
+    ReportStatus:
+      properties:
+        id:
+          type: integer
+          title: Id
+        report_id:
+          type: integer
+          title: Report Id
+        service_id:
+          type: integer
+          title: Service Id
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - status
+      title: ReportStatus
+    ReportStatusType:
+      type: string
+      enum:
+      - pending
+      - localization
+      - classification
+      - generation
+      - updating
+      - completed
+      - read
+      title: ReportStatusType
+    ReportText:
+      properties:
+        id:
+          type: integer
+          title: Id
+        report_id:
+          type: integer
+          title: Report Id
+        text:
+          type: string
+          title: Text
+        num_word:
+          type: integer
+          title: Num Word
+        num_symbols:
+          type: integer
+          title: Num Symbols
+        active:
+          type: boolean
+          title: Active
+        version:
+          type: integer
+          title: Version
+        params_version:
+          type: integer
+          title: Params Version
+      type: object
+      title: ReportText
+    ReportUpdateInDto:
+      properties:
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        params:
+          anyOf:
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/BooleanParameter'
+              - $ref: '#/components/schemas/StringParameter'
+              - $ref: '#/components/schemas/EnumParameter'
+              discriminator:
+                propertyName: type
+                mapping:
+                  boolean: '#/components/schemas/BooleanParameter'
+                  enum: '#/components/schemas/EnumParameter'
+                  string: '#/components/schemas/StringParameter'
+            type: array
+          - type: 'null'
+          title: Params
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+      type: object
+      required:
+      - title
+      title: ReportUpdateInDto
+    ReportUploadImageInDto:
+      properties:
+        image:
+          type: string
+          title: Image
+      type: object
+      required:
+      - image
+      title: ReportUploadImageInDto
+    ReportUploadImageOutDto:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+      type: object
+      title: ReportUploadImageOutDto
+    StringParameter:
+      properties:
+        type:
+          type: string
+          const: string
+          title: Type
+          default: string
+        name:
+          type: string
+          title: Name
+        data:
+          $ref: '#/components/schemas/StringParameterData'
+      type: object
+      required:
+      - name
+      - data
+      title: StringParameter
+    StringParameterData:
+      properties:
+        value:
+          type: string
+          title: Value
+      type: object
+      required:
+      - value
+      title: StringParameterData
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    CustomOAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: token

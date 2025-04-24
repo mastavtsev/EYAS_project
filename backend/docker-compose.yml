@@ -1,0 +1,193 @@
+services:
+  usersvc:
+    platform: linux/arm64
+    hostname: usersvc
+    build:
+      context: ./
+      dockerfile: docker/common/Dockerfile
+      target: user
+    volumes:
+      - ./service/usersvc/usersvc/app:/opt/pysetup/service/usersvc/usersvc/app
+    ports:
+      - "127.0.0.1:8004:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/fundus
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - DISABLE_CORS=True
+      - LOG_LEVEL=debug
+      - SERVICE_ID=-1
+      - FUNDUS_TESTING=true
+    depends_on:
+      - postgres
+
+  reportsvc:
+    platform: linux/arm64
+    hostname: reportsvc
+    build:
+      context: ./
+      dockerfile: docker/common/Dockerfile
+      target: report
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: 1
+#              capabilities: [ gpu ]
+    volumes:
+      - ./service/reportsvc/reportsvc/app:/opt/pysetup/service/reportsvc/reportsvc/app
+    ports:
+      - "127.0.0.1:8005:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/fundus
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - DISABLE_CORS=True
+      - LOG_LEVEL=debug
+      - SERVICE_ID=-2
+      - OD_SERVICE_URL=http://odsvc:8000
+      - AV_SERVICE_URL=http://avsvc:8000
+      - MAC_SERVICE_URL=http://macsvc:8000
+      - LLM_SERVICE_URL=http://llmsvc:8000
+      - PDF_SERVICE_URL=http://pdfsvc:8000
+    depends_on:
+      - postgres
+
+  odsvc:
+    platform: linux/arm64
+    hostname: odsvc
+    build:
+      context: ./
+      dockerfile: docker/common/Dockerfile
+      target: od
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: 1
+#              capabilities: [ gpu ]
+    volumes:
+      - ./service/odsvc/odsvc/app:/opt/pysetup/service/odsvc/odsvc/app
+    ports:
+      - "127.0.0.1:8006:8000"
+    environment:
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - DISABLE_CORS=True
+      - LOG_LEVEL=debug
+      - SERVICE_ID=-3
+      - REPORT_SERVICE_URL=http://reportsvc:8000
+    depends_on:
+      - postgres
+
+  avsvc:
+    platform: linux/arm64
+    hostname: avsvc
+    build:
+      context: ./
+      dockerfile: docker/common/Dockerfile
+      target: av
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: 1
+#              capabilities: [ gpu ]
+    volumes:
+      - ./service/avsvc/avsvc/app:/opt/pysetup/service/avsvc/avsvc/app
+    ports:
+      - "127.0.0.1:8007:8000"
+    environment:
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - DISABLE_CORS=True
+      - LOG_LEVEL=debug
+      - SERVICE_ID=-4
+      - REPORT_SERVICE_URL=http://reportsvc:8000
+    depends_on:
+      - postgres
+
+  macsvc:
+    platform: linux/arm64
+    hostname: macsvc
+    build:
+      context: ./
+      dockerfile: docker/common/Dockerfile
+      target: mac
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: 1
+#              capabilities: [ gpu ]
+    volumes:
+      - ./service/macsvc/macsvc/app:/opt/pysetup/service/macsvc/macsvc/app
+    ports:
+      - "127.0.0.1:8008:8000"
+    environment:
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - DISABLE_CORS=True
+      - LOG_LEVEL=debug
+      - SERVICE_ID=-5
+      - REPORT_SERVICE_URL=http://reportsvc:8000
+    depends_on:
+      - postgres
+
+  llmsvc:
+    platform: linux/arm64
+    hostname: llmsvc
+    build:
+      context: ./
+      dockerfile: docker/common/Dockerfile
+      target: llm
+    volumes:
+      - ./service/llmsvc/llmsvc/app:/opt/pysetup/service/llmsvc/llmsvc/app
+    ports:
+      - "127.0.0.1:8009:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/fundus
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - DISABLE_CORS=True
+      - LOG_LEVEL=debug
+      - SERVICE_ID=-6
+      - REPORT_SERVICE_URL=http://reportsvc:8000
+    depends_on:
+      - postgres
+
+  pdfsvc:
+    platform: linux/arm64
+    hostname: pdfsvc
+    build:
+      context: ./
+      dockerfile: docker/common/Dockerfile
+      target: pdf
+    volumes:
+      - ./service/pdfsvc/pdfsvc/app:/opt/pysetup/service/pdfsvc/pdfsvc/app
+    ports:
+      - "127.0.0.1:8010:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/fundus
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - DISABLE_CORS=True
+      - LOG_LEVEL=debug
+      - SERVICE_ID=-7
+      - REPORT_SERVICE_URL=http://reportsvc:8000
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15.3
+    platform: linux/arm64
+    expose:
+      - 5432
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=fundus
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
